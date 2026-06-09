@@ -1,0 +1,697 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Sanskrit:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --saffron:#C8700A;
+  --gold:#E8A020;
+  --deep:#1A0800;
+  --cream:#FDF3E0;
+  --card:#1e1008;
+  --muted:#9A7A50;
+}
+
+.app{
+  font-family:'Poppins',sans-serif;
+  background:#0E0500;
+  color:#F5E8CC;
+  min-height:600px;
+  max-width:420px;
+  margin:0 auto;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+}
+
+.bg-glow{
+  position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:300px;height:300px;
+  background:radial-gradient(circle,#C8700A22 0%,transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.screen{display:none;flex-direction:column;height:600px;overflow-y:auto;position:relative;z-index:1;}
+.screen.active{display:flex;}
+.screen::-webkit-scrollbar{width:0;}
+
+/* TOP NAV */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px 10px;
+  position:sticky;top:0;background:#0E0500;z-index:10;
+}
+.logo-text{font-family:'Tiro Devanagari Sanskrit',serif;font-size:17px;color:#E8A020;letter-spacing:.5px;}
+.logo-sub{font-size:10px;color:#7A5A30;margin-top:-2px;}
+.topbar-right{display:flex;gap:8px;align-items:center;}
+.icon-btn{width:32px;height:32px;border-radius:50%;background:#1e1008;border:0.5px solid #3A2010;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9A7A50;font-size:16px;}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#C8700A,#E8A020);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;}
+
+/* HERO BANNER */
+.hero{
+  margin:0 14px 16px;
+  background:#1A0800;
+  border:0.5px solid #3A2010;
+  border-radius:16px;
+  padding:20px 18px;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+}
+.hero-om{
+  position:absolute;right:-10px;top:-10px;
+  font-family:'Tiro Devanagari Sanskrit',serif;
+  font-size:130px;color:#C8700A;opacity:.06;
+  line-height:1;pointer-events:none;
+}
+.hero-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C8700A;margin-bottom:8px;}
+.hero h2{font-family:'Tiro Devanagari Sanskrit',serif;font-size:20px;color:#FDF0CC;line-height:1.35;margin-bottom:6px;}
+.hero p{font-size:12px;color:#9A7A50;line-height:1.6;margin-bottom:14px;}
+.hero-actions{display:flex;gap:8px;}
+.btn-play{
+  background:#C8700A;color:#fff;border:none;
+  padding:8px 16px;border-radius:20px;font-size:12px;
+  font-family:'Poppins',sans-serif;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;gap:5px;
+}
+.btn-ghost{
+  background:none;color:#F5E8CC;border:0.5px solid #3A2010;
+  padding:8px 14px;border-radius:20px;font-size:12px;
+  font-family:'Poppins',sans-serif;cursor:pointer;
+}
+.hero-stats{display:flex;gap:20px;margin-top:16px;padding-top:14px;border-top:0.5px solid #2A1208;}
+.hs{text-align:center;}
+.hs-n{font-size:16px;font-weight:600;color:#E8A020;}
+.hs-l{font-size:9px;color:#7A5A30;text-transform:uppercase;letter-spacing:1px;}
+
+/* CHALLENGE CARD */
+.challenge-card{
+  margin:0 14px 16px;
+  background:linear-gradient(135deg,#1A0800,#2A1000);
+  border:0.5px solid #C8700A40;
+  border-radius:16px;
+  padding:16px 18px;
+  cursor:pointer;
+}
+.ch-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#C8700A;margin-bottom:6px;}
+.ch-title{font-size:14px;font-weight:600;color:#FDF0CC;margin-bottom:4px;}
+.ch-desc{font-size:11px;color:#9A7A50;margin-bottom:12px;}
+.progress-wrap{display:flex;align-items:center;gap:10px;}
+.progress-bar{flex:1;height:4px;background:#2A1208;border-radius:2px;}
+.progress-fill{height:100%;background:#C8700A;border-radius:2px;width:23%;}
+.progress-text{font-size:10px;color:#9A7A50;white-space:nowrap;}
+.day-dots{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap;}
+.dot{width:18px;height:18px;border-radius:50%;background:#2A1208;border:0.5px solid #3A2010;display:flex;align-items:center;justify-content:center;font-size:8px;color:#7A5A30;}
+.dot.done{background:#C8700A;border-color:#C8700A;color:#fff;}
+.dot.today{background:none;border:1.5px solid #C8700A;color:#C8700A;}
+
+/* SECTION */
+.section{padding:0 14px 14px;}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sec-title{font-size:12px;font-weight:600;color:#F5E8CC;letter-spacing:.3px;}
+.see-all{font-size:11px;color:#C8700A;background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;}
+
+/* DEITY ROW */
+.deity-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
+.deity-scroll::-webkit-scrollbar{display:none;}
+.deity-chip{
+  flex:0 0 80px;
+  background:#1A0800;border:0.5px solid #3A2010;
+  border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;
+  transition:border-color .2s;
+}
+.deity-chip:hover,.deity-chip.active{border-color:#C8700A;}
+.d-orb{width:40px;height:40px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.orb1{background:#2A1500;}
+.orb2{background:#0A2A1A;}
+.orb3{background:#1A0A2A;}
+.orb4{background:#0A1A2A;}
+.orb5{background:#2A1A0A;}
+.d-name{font-size:10px;font-weight:500;color:#F5E8CC;}
+.d-count{font-size:9px;color:#7A5A30;margin-top:1px;}
+
+/* NOW PLAYING */
+.np-bar{
+  margin:0 14px 14px;
+  background:#1A0800;border:0.5px solid #3A2010;
+  border-radius:14px;padding:12px 14px;
+  display:flex;align-items:center;gap:12px;
+}
+.np-thumb{width:42px;height:42px;border-radius:8px;background:#2A1000;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.np-info{flex:1;min-width:0;}
+.np-title{font-size:12px;font-weight:500;color:#F5E8CC;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.np-sub{font-size:10px;color:#7A5A30;margin-top:1px;}
+.np-track{height:2px;background:#2A1208;border-radius:2px;margin-top:7px;}
+.np-prog{height:100%;width:38%;background:#C8700A;border-radius:2px;}
+.np-ctrl{display:flex;gap:8px;align-items:center;}
+.ctrl-btn{background:none;border:none;color:#7A5A30;font-size:16px;cursor:pointer;}
+.ctrl-play{width:30px;height:30px;border-radius:50%;background:#C8700A;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:14px;}
+
+/* BOOK GRID */
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.book-card{background:#1A0800;border:0.5px solid #3A2010;border-radius:14px;padding:12px;cursor:pointer;}
+.book-cover{width:100%;height:76px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-family:'Tiro Devanagari Sanskrit',serif;font-size:11px;text-align:center;line-height:1.5;padding:6px;}
+.cv1{background:#2A0808;color:#FFB899;}
+.cv2{background:#081828;color:#99C8FF;}
+.cv3{background:#082808;color:#99FFB8;}
+.cv4{background:#180828;color:#D099FF;}
+.book-title{font-size:12px;font-weight:500;color:#F5E8CC;}
+.book-meta{font-size:10px;color:#7A5A30;margin-top:1px;}
+.book-badge{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:9px;padding:2px 7px;border-radius:99px;border:0.5px solid #C8700A;color:#C8700A;}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  display:flex;
+  background:#0E0500;
+  border-top:0.5px solid #2A1208;
+  position:sticky;bottom:0;
+  margin-top:auto;
+}
+.nav-btn{flex:1;padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:#7A5A30;font-family:'Poppins',sans-serif;}
+.nav-btn.active{color:#C8700A;}
+.nav-icon{font-size:18px;}
+.nav-label{font-size:9px;}
+
+/* CHALLENGE SCREEN */
+.ch-screen-header{
+  padding:16px 18px 12px;
+  border-bottom:0.5px solid #2A1208;
+  display:flex;align-items:center;gap:10px;
+}
+.back-btn{background:none;border:none;color:#9A7A50;font-size:20px;cursor:pointer;}
+.ch-screen-title{font-size:15px;font-weight:600;color:#F5E8CC;}
+
+.series-card{
+  margin:0 14px 12px;
+  background:#1A0800;border:0.5px solid #3A2010;
+  border-radius:14px;padding:14px;cursor:pointer;
+  display:flex;gap:12px;align-items:center;
+}
+.sc-icon{width:44px;height:44px;border-radius:10px;background:#2A1000;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.sc-info{flex:1;}
+.sc-title{font-size:13px;font-weight:500;color:#F5E8CC;margin-bottom:2px;}
+.sc-meta{font-size:10px;color:#7A5A30;}
+.sc-prog{margin-top:6px;height:3px;background:#2A1208;border-radius:2px;}
+.sc-fill{height:100%;border-radius:2px;background:#C8700A;}
+.sc-badge{font-size:9px;padding:2px 8px;border-radius:99px;background:#C8700A20;color:#C8700A;border:none;margin-top:5px;display:inline-block;}
+
+.day-list{padding:0 14px;}
+.day-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:0.5px solid #1A0C02;
+  cursor:pointer;
+}
+.day-num{width:28px;height:28px;border-radius:50%;background:#2A1208;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
+.day-num.done{background:#C8700A;color:#fff;}
+.day-num.today{background:none;border:1.5px solid #C8700A;color:#C8700A;}
+.day-num.locked{color:#5A3A18;}
+.day-title{flex:1;font-size:12px;color:#F5E8CC;}
+.day-dur{font-size:10px;color:#7A5A30;}
+.day-lock{font-size:14px;color:#3A2010;}
+
+/* UPLOAD SCREEN */
+.upload-zone{
+  margin:0 14px 14px;
+  background:#1A0800;border:1px dashed #3A2010;
+  border-radius:14px;padding:28px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  cursor:pointer;
+}
+.upload-zone:hover{border-color:#C8700A;}
+.upload-icon{font-size:32px;color:#C8700A;opacity:.7;}
+.upload-title{font-size:13px;font-weight:500;color:#F5E8CC;}
+.upload-sub{font-size:11px;color:#7A5A30;text-align:center;}
+.upload-btn{background:#C8700A;color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:12px;font-family:'Poppins',sans-serif;font-weight:500;cursor:pointer;margin-top:4px;}
+
+.process-list{padding:0 14px;}
+.proc-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:0.5px solid #1A0C02;
+}
+.proc-icon{width:36px;height:36px;border-radius:9px;background:#2A1208;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.proc-info{flex:1;}
+.proc-title{font-size:12px;font-weight:500;color:#F5E8CC;}
+.proc-sub{font-size:10px;color:#7A5A30;margin-top:1px;}
+.proc-status{font-size:10px;padding:2px 8px;border-radius:99px;}
+.ps-done{background:#0A2A0A;color:#4CAF50;border:0.5px solid #1A4A1A;}
+.ps-proc{background:#2A1800;color:#E8A020;border:0.5px solid #4A3000;}
+.ps-wait{background:#1A1208;color:#7A5A30;border:0.5px solid #2A1A08;}
+
+.ai-options{margin:0 14px 14px;}
+.ai-opt-title{font-size:11px;color:#9A7A50;margin-bottom:8px;font-weight:500;}
+.opt-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.opt-chip{background:#1A0800;border:0.5px solid #3A2010;border-radius:99px;padding:5px 12px;font-size:11px;color:#9A7A50;cursor:pointer;}
+.opt-chip.sel{background:#C8700A20;border-color:#C8700A;color:#C8700A;}
+</style>
+
+<div class="app">
+<div class="bg-glow"></div>
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="sc-home">
+
+  <div class="topbar">
+    <div>
+      <div class="logo-text">दिव्य कथा</div>
+      <div class="logo-sub">Sacred Stories · Gen Z Edition</div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" onclick="switchTab('sc-upload')"><i class="ti ti-upload" aria-hidden="true"></i></div>
+      <div class="avatar">P</div>
+    </div>
+  </div>
+
+  <div class="hero" onclick="switchTab('sc-series')">
+    <div class="hero-om">ॐ</div>
+    <div class="hero-tag">Bhagavat Puran · Now Playing</div>
+    <h2>श्रीमद् भागवतम्</h2>
+    <p>Listen to Krishna's divine leelas — audio & animated video in Hindi, narrated by sacred deity avatars.</p>
+    <div class="hero-actions">
+      <button class="btn-play"><i class="ti ti-player-play" aria-hidden="true"></i> Play Audio</button>
+      <button class="btn-ghost">Watch Video</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">12</div><div class="hs-l">Skandhas</div></div>
+      <div class="hs"><div class="hs-n">335</div><div class="hs-l">Chapters</div></div>
+      <div class="hs"><div class="hs-n">18k</div><div class="hs-l">Shlokas</div></div>
+    </div>
+  </div>
+
+  <div class="challenge-card" onclick="switchTab('sc-series')">
+    <div class="ch-label">🔥 Your active challenge</div>
+    <div class="ch-title">30-Day Bhagavat Series</div>
+    <div class="ch-desc">Day 7 of 30 · Chapter 3 — Vasudeva's Prayer</div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div class="progress-text">23% done</div>
+    </div>
+    <div class="day-dots" id="day-dots"></div>
+  </div>
+
+  <div class="np-bar">
+    <div class="np-thumb">📖</div>
+    <div class="np-info">
+      <div class="np-title">Ch 3 · Vasudeva & Devaki's Prayer</div>
+      <div class="np-sub">Bhagavat Puran · Skandha 10</div>
+      <div class="np-track"><div class="np-prog" id="np-prog"></div></div>
+    </div>
+    <div class="np-ctrl">
+      <button class="ctrl-btn"><i class="ti ti-player-skip-back" aria-hidden="true"></i></button>
+      <button class="ctrl-play" id="play-btn" onclick="togglePlay()"><i class="ti ti-player-play" id="play-icon" aria-hidden="true"></i></button>
+      <button class="ctrl-btn"><i class="ti ti-player-skip-forward" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-title">Divine Narrators</span>
+      <button class="see-all">See all</button>
+    </div>
+    <div class="deity-scroll">
+      <div class="deity-chip active">
+        <div class="d-orb orb1">🪷</div>
+        <div class="d-name">Lakshmi</div>
+        <div class="d-count">4 katha</div>
+      </div>
+      <div class="deity-chip">
+        <div class="d-orb orb2">🦚</div>
+        <div class="d-name">Krishna</div>
+        <div class="d-count">12 katha</div>
+      </div>
+      <div class="deity-chip">
+        <div class="d-orb orb3">🔱</div>
+        <div class="d-name">Shiv ji</div>
+        <div class="d-count">7 katha</div>
+      </div>
+      <div class="deity-chip">
+        <div class="d-orb orb4">🌸</div>
+        <div class="d-name">Saraswati</div>
+        <div class="d-count">5 katha</div>
+      </div>
+      <div class="deity-chip">
+        <div class="d-orb orb5">🐘</div>
+        <div class="d-name">Ganesh ji</div>
+        <div class="d-count">6 katha</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-title">Sacred Library</span>
+      <button class="see-all">See all</button>
+    </div>
+    <div class="book-grid">
+      <div class="book-card" onclick="switchTab('sc-series')">
+        <div class="book-cover cv1">Bhagavat<br>Puran</div>
+        <div class="book-title">Bhagavat Puran</div>
+        <div class="book-meta">12 Skandhas · 335 Ch.</div>
+        <span class="book-badge"><i class="ti ti-headphones" aria-hidden="true"></i> Audio + Video</span>
+      </div>
+      <div class="book-card">
+        <div class="book-cover cv2">Vishnu<br>Puran</div>
+        <div class="book-title">Vishnu Puran</div>
+        <div class="book-meta">6 Amshas · 126 Ch.</div>
+        <span class="book-badge"><i class="ti ti-headphones" aria-hidden="true"></i> Audio only</span>
+      </div>
+      <div class="book-card">
+        <div class="book-cover cv3">Shiv<br>Puran</div>
+        <div class="book-title">Shiv Puran</div>
+        <div class="book-meta">7 Samhitas</div>
+        <span class="book-badge"><i class="ti ti-headphones" aria-hidden="true"></i> Audio + Video</span>
+      </div>
+      <div class="book-card" onclick="switchTab('sc-upload')">
+        <div class="book-cover cv4" style="border:1.5px dashed #4A2A6A;align-items:center;flex-direction:column;gap:4px;display:flex;justify-content:center;">
+          <i class="ti ti-plus" style="font-size:22px;color:#9A60C0;" aria-hidden="true"></i>
+          <span style="font-size:10px;color:#9A60C0;">Add PDF</span>
+        </div>
+        <div class="book-title">Upload New</div>
+        <div class="book-meta">PDF → Audio + Video</div>
+        <span class="book-badge" style="border-color:#9A60C0;color:#9A60C0;"><i class="ti ti-sparkles" aria-hidden="true"></i> AI Convert</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn active" onclick="switchTab('sc-home')">
+      <i class="ti ti-home nav-icon" aria-hidden="true"></i>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('sc-series')">
+      <i class="ti ti-calendar nav-icon" aria-hidden="true"></i>
+      <span class="nav-label">Series</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('sc-upload')">
+      <i class="ti ti-upload nav-icon" aria-hidden="true"></i>
+      <span class="nav-label">Upload</span>
+    </button>
+    <button class="nav-btn">
+      <i class="ti ti-heart nav-icon" aria-hidden="true"></i>
+      <span class="nav-label">Saved</span>
+    </button>
+    <button class="nav-btn">
+      <i class="ti ti-user nav-icon" aria-hidden="true"></i>
+      <span class="nav-label">Profile</span>
+    </button>
+  </div>
+</div>
+
+<!-- SERIES SCREEN -->
+<div class="screen" id="sc-series">
+  <div class="ch-screen-header">
+    <button class="back-btn" onclick="switchTab('sc-home')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+    <div class="ch-screen-title">Katha Series</div>
+  </div>
+
+  <div style="padding:0 14px 8px;">
+    <div style="font-size:10px;color:#7A5A30;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Active Challenges</div>
+  </div>
+
+  <div class="series-card" style="border-color:#C8700A40;">
+    <div class="sc-icon">📿</div>
+    <div class="sc-info">
+      <div class="sc-title">30-Day Bhagavat Series</div>
+      <div class="sc-meta">Day 7 of 30 · ~22 mins/day</div>
+      <div class="sc-prog"><div class="sc-fill" style="width:23%;"></div></div>
+      <span class="sc-badge">Resume Day 7 →</span>
+    </div>
+  </div>
+
+  <div style="padding:0 14px 8px;margin-top:4px;">
+    <div style="font-size:10px;color:#7A5A30;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Start a New Series</div>
+  </div>
+
+  <div class="series-card">
+    <div class="sc-icon">🔱</div>
+    <div class="sc-info">
+      <div class="sc-title">7-Day Shiv Puran Katha</div>
+      <div class="sc-meta">~35 mins/day · Beginner friendly</div>
+      <span class="sc-badge" style="background:#1A1228;color:#9A60C0;margin-top:5px;">Start Challenge</span>
+    </div>
+  </div>
+
+  <div class="series-card">
+    <div class="sc-icon">🪷</div>
+    <div class="sc-info">
+      <div class="sc-title">21-Day Vishnu Sahasranama</div>
+      <div class="sc-meta">~15 mins/day · Audio + meaning</div>
+      <span class="sc-badge" style="background:#1A1228;color:#9A60C0;margin-top:5px;">Start Challenge</span>
+    </div>
+  </div>
+
+  <div class="series-card">
+    <div class="sc-icon">⚙️</div>
+    <div class="sc-info">
+      <div class="sc-title">Custom Series</div>
+      <div class="sc-meta">Choose any text, set your own pace</div>
+      <span class="sc-badge" style="background:#1A1228;color:#9A60C0;margin-top:5px;" onclick="switchTab('sc-custom')">Configure →</span>
+    </div>
+  </div>
+
+  <div style="padding:0 14px 8px;margin-top:4px;">
+    <div style="font-size:10px;color:#7A5A30;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Day-by-Day · 30-Day Bhagavat</div>
+  </div>
+
+  <div class="day-list" id="day-list"></div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="switchTab('sc-home')">
+      <i class="ti ti-home nav-icon" aria-hidden="true"></i><span class="nav-label">Home</span>
+    </button>
+    <button class="nav-btn active" onclick="switchTab('sc-series')">
+      <i class="ti ti-calendar nav-icon" aria-hidden="true"></i><span class="nav-label">Series</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('sc-upload')">
+      <i class="ti ti-upload nav-icon" aria-hidden="true"></i><span class="nav-label">Upload</span>
+    </button>
+    <button class="nav-btn"><i class="ti ti-heart nav-icon" aria-hidden="true"></i><span class="nav-label">Saved</span></button>
+    <button class="nav-btn"><i class="ti ti-user nav-icon" aria-hidden="true"></i><span class="nav-label">Profile</span></button>
+  </div>
+</div>
+
+<!-- UPLOAD SCREEN -->
+<div class="screen" id="sc-upload">
+  <div class="ch-screen-header">
+    <button class="back-btn" onclick="switchTab('sc-home')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+    <div class="ch-screen-title">Upload Sacred Text</div>
+  </div>
+
+  <div class="upload-zone" onclick="simulateUpload()">
+    <div class="upload-icon"><i class="ti ti-file-type-pdf" aria-hidden="true"></i></div>
+    <div class="upload-title">Upload PDF / Text File</div>
+    <div class="upload-sub">AI will convert it into audio katha<br>and animated storytelling video</div>
+    <button class="upload-btn">Choose File</button>
+  </div>
+
+  <div class="ai-options">
+    <div class="ai-opt-title">Narration Style</div>
+    <div class="opt-row" id="opt-narrator">
+      <div class="opt-chip sel" onclick="toggleOpt(this,'opt-narrator')">Mata Lakshmi</div>
+      <div class="opt-chip" onclick="toggleOpt(this,'opt-narrator')">Shri Krishna</div>
+      <div class="opt-chip" onclick="toggleOpt(this,'opt-narrator')">Shiv ji</div>
+    </div>
+    <div class="ai-opt-title">Language</div>
+    <div class="opt-row" id="opt-lang">
+      <div class="opt-chip sel" onclick="toggleOpt(this,'opt-lang')">Hindi</div>
+      <div class="opt-chip" onclick="toggleOpt(this,'opt-lang')">English</div>
+      <div class="opt-chip" onclick="toggleOpt(this,'opt-lang')">Sanskrit + Hindi</div>
+    </div>
+    <div class="ai-opt-title">Output Format</div>
+    <div class="opt-row" id="opt-format">
+      <div class="opt-chip sel" onclick="toggleOpt(this,'opt-format')">Audio Katha</div>
+      <div class="opt-chip sel" onclick="toggleOpt(this,'opt-format')">Animated Video</div>
+    </div>
+  </div>
+
+  <div style="padding:0 14px 8px;">
+    <div style="font-size:10px;color:#7A5A30;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Recently Processed</div>
+  </div>
+
+  <div class="process-list">
+    <div class="proc-item">
+      <div class="proc-icon">📜</div>
+      <div class="proc-info">
+        <div class="proc-title">Bhagavat Puran Skandha 10</div>
+        <div class="proc-sub">Uploaded 2 days ago · 42 chapters</div>
+      </div>
+      <span class="proc-status ps-done"><i class="ti ti-check" aria-hidden="true"></i> Done</span>
+    </div>
+    <div class="proc-item">
+      <div class="proc-icon">📜</div>
+      <div class="proc-info">
+        <div class="proc-title">Vishnu Sahasranama</div>
+        <div class="proc-sub">Uploaded 1 day ago · Audio ready</div>
+      </div>
+      <span class="proc-status ps-proc" id="proc2"><i class="ti ti-loader" aria-hidden="true"></i> Video…</span>
+    </div>
+    <div class="proc-item">
+      <div class="proc-icon">📜</div>
+      <div class="proc-info">
+        <div class="proc-title">Devi Bhagavat Skandha 1</div>
+        <div class="proc-sub">Just uploaded · In queue</div>
+      </div>
+      <span class="proc-status ps-wait"><i class="ti ti-clock" aria-hidden="true"></i> Queue</span>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="switchTab('sc-home')">
+      <i class="ti ti-home nav-icon" aria-hidden="true"></i><span class="nav-label">Home</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('sc-series')">
+      <i class="ti ti-calendar nav-icon" aria-hidden="true"></i><span class="nav-label">Series</span>
+    </button>
+    <button class="nav-btn active" onclick="switchTab('sc-upload')">
+      <i class="ti ti-upload nav-icon" aria-hidden="true"></i><span class="nav-label">Upload</span>
+    </button>
+    <button class="nav-btn"><i class="ti ti-heart nav-icon" aria-hidden="true"></i><span class="nav-label">Saved</span></button>
+    <button class="nav-btn"><i class="ti ti-user nav-icon" aria-hidden="true"></i><span class="nav-label">Profile</span></button>
+  </div>
+</div>
+
+<!-- CUSTOM SERIES SCREEN -->
+<div class="screen" id="sc-custom">
+  <div class="ch-screen-header">
+    <button class="back-btn" onclick="switchTab('sc-series')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+    <div class="ch-screen-title">Custom Series</div>
+  </div>
+  <div style="padding:14px;">
+    <div style="font-size:12px;color:#9A7A50;margin-bottom:14px;">Apna khud ka schedule banao</div>
+
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;color:#7A5A30;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Select Text</div>
+      <div class="opt-row" id="opt-text">
+        <div class="opt-chip sel" onclick="toggleOpt(this,'opt-text')">Bhagavat Puran</div>
+        <div class="opt-chip" onclick="toggleOpt(this,'opt-text')">Vishnu Puran</div>
+        <div class="opt-chip" onclick="toggleOpt(this,'opt-text')">Shiv Puran</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;color:#7A5A30;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Duration (days)</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <input type="range" min="7" max="108" value="30" id="dur-slider" oninput="updateDur()" style="flex:1;">
+        <span id="dur-val" style="font-size:16px;font-weight:600;color:#E8A020;min-width:40px;text-align:right;">30</span>
+      </div>
+      <div style="font-size:10px;color:#7A5A30;margin-top:4px;" id="dur-desc">~22 mins per day</div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;color:#7A5A30;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Daily Time</div>
+      <div class="opt-row" id="opt-time">
+        <div class="opt-chip" onclick="toggleOpt(this,'opt-time')">Morning</div>
+        <div class="opt-chip sel" onclick="toggleOpt(this,'opt-time')">Afternoon</div>
+        <div class="opt-chip" onclick="toggleOpt(this,'opt-time')">Evening</div>
+        <div class="opt-chip" onclick="toggleOpt(this,'opt-time')">Anytime</div>
+      </div>
+    </div>
+
+    <button class="upload-btn" style="width:100%;justify-content:center;padding:12px;" onclick="switchTab('sc-series')">
+      <i class="ti ti-sparkles" aria-hidden="true"></i> Start My Series
+    </button>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="switchTab('sc-home')"><i class="ti ti-home nav-icon" aria-hidden="true"></i><span class="nav-label">Home</span></button>
+    <button class="nav-btn active" onclick="switchTab('sc-series')"><i class="ti ti-calendar nav-icon" aria-hidden="true"></i><span class="nav-label">Series</span></button>
+    <button class="nav-btn" onclick="switchTab('sc-upload')"><i class="ti ti-upload nav-icon" aria-hidden="true"></i><span class="nav-label">Upload</span></button>
+    <button class="nav-btn"><i class="ti ti-heart nav-icon" aria-hidden="true"></i><span class="nav-label">Saved</span></button>
+    <button class="nav-btn"><i class="ti ti-user nav-icon" aria-hidden="true"></i><span class="nav-label">Profile</span></button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const days=[
+  {n:1,title:'Shukadeva narrates to Parikshit',dur:'18 min',done:true},
+  {n:2,title:'The question of the highest good',dur:'21 min',done:true},
+  {n:3,title:'Creation of the universe',dur:'24 min',done:true},
+  {n:4,title:'Brahma's four sons — Sanat Kumaras',dur:'19 min',done:true},
+  {n:5,title:'Story of Dhruva',dur:'26 min',done:true},
+  {n:6,title:'Prahlad & Hiranyakashipu',dur:'28 min',done:true},
+  {n:7,title:'Vasudeva & Devaki's prayer',dur:'22 min',today:true},
+  {n:8,title:'Birth of Lord Krishna',dur:'25 min'},
+  {n:9,title:'Krishna's childhood leelas',dur:'20 min'},
+  {n:10,title:'Govardhan Parvat lifting',dur:'23 min'},
+];
+
+function buildDayDots(){
+  const c=document.getElementById('day-dots');
+  if(!c)return;
+  for(let i=1;i<=30;i++){
+    const d=document.createElement('div');
+    d.className='dot'+(i<7?' done':i==7?' today':'');
+    d.textContent=i;
+    c.appendChild(d);
+  }
+}
+
+function buildDayList(){
+  const c=document.getElementById('day-list');
+  if(!c)return;
+  days.forEach(d=>{
+    const locked=!d.done&&!d.today;
+    const el=document.createElement('div');
+    el.className='day-item';
+    el.innerHTML=`
+      <div class="day-num ${d.done?'done':d.today?'today':locked?'locked':''}">${d.n}</div>
+      <div class="day-title" style="${locked?'color:#5A3A18;':''}">${d.title}</div>
+      <span class="day-dur">${d.dur}</span>
+      ${locked?'<i class="ti ti-lock day-lock" aria-hidden="true"></i>':'<i class="ti ti-player-play" style="font-size:14px;color:#C8700A;" aria-hidden="true"></i>'}
+    `;
+    c.appendChild(el);
+  });
+}
+
+buildDayDots();
+buildDayList();
+
+let playing=false;
+let progW=38;
+let progTimer;
+
+function togglePlay(){
+  playing=!playing;
+  document.getElementById('play-icon').className=playing?'ti ti-player-pause':'ti ti-player-play';
+  if(playing){
+    progTimer=setInterval(()=>{
+      progW=Math.min(progW+0.1,100);
+      document.getElementById('np-prog').style.width=progW+'%';
+      if(progW>=100)clearInterval(progTimer);
+    },200);
+  } else {
+    clearInterval(progTimer);
+  }
+}
+
+function switchTab(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById(id).scrollTop=0;
+}
+
+function toggleOpt(el,grp){
+  if(grp==='opt-format'){
+    el.classList.toggle('sel');
+    return;
+  }
+  document.querySelectorAll('#'+grp+' .opt-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function updateDur(){
+  const v=parseInt(document.getElementById('dur-slider').value);
+  document.getElementById('dur-val').textContent=v;
+  const mins=Math.round(660/v);
+  document.getElementById('dur-desc').textContent='~'+mins+' mins per day';
+}
+
+function simulateUpload(){
+  const p=document.getElementById('proc2');
+  if(p){p.innerHTML='<i class="ti ti-loader" aria-hidden="true"></i> Processing…';}
+  setTimeout(()=>{
+    if(p){p.className='proc-status ps-done';p.innerHTML='<i class="ti ti-check" aria-hidden="true"></i> Done';}
+  },3000);
+}
+</script>
